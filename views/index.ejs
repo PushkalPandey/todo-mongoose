@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-DO</title>
+</head>
+
+<body>
+
+    <%- include("partials/header.ejs",{ myname:username,}) %>
+
+        <div class="wrapper">
+            <div id="parent" class="box" class="container">
+                <h1>TASK LIST</h1>
+                <p>Add tasks to your list by typing to the right and pressing enter. You may then view pending tasks
+                    below.
+                </p>
+                <% todos.forEach(function(todo,i){ %>
+
+                    <div class="todoContainer" id=`<%=todo.text %>
+                        <%= i %>`>
+                            <p class=<%=todo.done==true ? "checkit" :'' %>><%= todo.text %>
+                            </p>
+                            <img src="/images/<%=  todo.imagePath%>">
+
+                            <form method='POST' action="/delete-todo">
+                                <button type="submit" name="delete" value=<%=todo._id %>>X</button>
+                            </form>
+
+
+                            <form method='POST' action="/check-todo" id="form<%= i %>">
+                                <!-- HERE IS THE BUG -->
+
+                                <% if(todo.done===true){ %>
+                                    <button  class = "checkedBox" type="submit" name="check" state-check="true" id="check<%= i %>"
+                                        value=<%=todo._id %> > &check;</button>
+                                    <% } else { %>
+                                        <button  type="submit"   name="check" state-check="true" id="check<%= i %>"
+                                            value=<%=todo._id %> >&nbsp;</button>
+                                        <%}%>
+                            </form>
+                    </div>
+
+
+                    <% }) %>
+            </div>
+
+            <div class="input-text" class="box">
+
+                <form method="post" action="/add-todo" enctype="multipart/form-data">
+                    <input name="text" placeholder="enter something" />
+                    <input type="file" name="task-picture" />
+                    <input type="submit">
+                </form>
+
+
+
+            </div>
+        </div>
+
+
+
+</body>
+
+
+
+
+</html>
